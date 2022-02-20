@@ -1,2 +1,3 @@
 # comp3021lab
-For UST COMP3021 Lab
+
+Ngai Tsun Hei 20699845
