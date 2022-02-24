@@ -6,6 +6,8 @@ public class Note {
 	Date date;
 	private String title;
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -20,11 +22,8 @@ public class Note {
 			return true;
 		if (obj == null)
 			return false;
-//		if (getClass() != obj.getClass()){
-//			System.out.println(obj.getClass());
-//			return false;
-//		}
-
+		if (!(obj instanceof Note))
+			return false;
 		Note other = (Note) obj;
 		if (title == null) {
 			if (other.title != null)
