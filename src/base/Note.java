@@ -2,11 +2,23 @@ package base;
 import java.util.Date;
 //import java.text.SimpleDateFormat;
 
-public class Note {
+public class Note implements Comparable<Note> {
+	@Override
+	public String toString() {
+		return date.toString() + "\t" +title;
+	}
+
 	Date date;
 	private String title;
 
-
+	@Override
+	public int compareTo(Note o){
+		if (this.date.compareTo(o.date) >= 0){
+            return -1;
+        } else {
+            return 1;
+        }
+	}
 
 	@Override
 	public int hashCode() {

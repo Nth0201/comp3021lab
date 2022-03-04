@@ -1,8 +1,11 @@
 package base;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Folder {
+
+public class Folder implements Comparable<Folder>{
 	private ArrayList<Note> notes;
 	private String name;
 
@@ -20,6 +23,79 @@ public class Folder {
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
+
+	public void sortNotes(){
+		Collections.sort(notes);
+	}
+
+	public List<Note> searchNotes(String keyword){
+		String[] splitStr = keyword.trim().split("\\s+");
+		ArrayList<Note> CurrentSearch = new ArrayList<Note>();
+		ArrayList<Note> SearchRange = notes;
+		boolean or_flag = false;
+		boolean updateRange = false;
+		boolean notexistSame = true;
+		for(String searchWord : splitStr){
+			if(searchWord.equals("OR")||searchWord.equals("or")){
+				or_flag = true;
+			}else{
+
+					// doing And operation
+					//update search range
+					if(or_flag){
+						or_flag = false;
+					} else if(updateRange){
+						SearchRange = CurrentSearch;
+						CurrentSearch = new ArrayList<Note>();
+
+					} else {
+						updateRange = true;
+					}
+
+					for(Note o: SearchRange){
+						if(o instanceof TextNote){
+							TextNote other = (TextNote)o;
+							if(other.getTitle().toUpperCase().contains(searchWord) || other.content.toUpperCase().contains(searchWord)){
+								notexistSame = true;
+								for(Note m: CurrentSearch){
+									if(m.equals(o)){
+										notexistSame = false;
+									}
+								}
+								//not exist same note then add it to CurrentSearch
+								if(notexistSame){
+									CurrentSearch.add(o);
+								}
+							}
+						} else {
+							if(o.getTitle().toUpperCase().contains(searchWord)){
+								notexistSame = true;
+								for(Note m: CurrentSearch){
+									if(m.equals(o)){
+										notexistSame = false;
+									}
+								}
+
+								//not exist same note then add it to CurrentSearch
+								if(notexistSame){
+									CurrentSearch.add(o);
+								}
+							}
+						}
+					}
+				}
+
+		}
+		Collections.sort(CurrentSearch);
+		return CurrentSearch;
+	}
+
+	@Override
+	public int compareTo(Folder o){
+		int compare = this.name.compareTo(o.name);
+		return compare;
+	}
+
 
 	@Override
 	public int hashCode() {
