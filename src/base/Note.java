@@ -2,7 +2,10 @@ package base;
 import java.util.Date;
 //import java.text.SimpleDateFormat;
 
-public class Note implements Comparable<Note> {
+public class Note implements Comparable<Note>, java.io.Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		return date.toString() + "\t" +title;
