@@ -58,4 +58,8 @@ public class Note implements Comparable<Note>, java.io.Serializable {
 	public String getTitle(){
 		return title;
 	}
+
+	public String getContent(){
+		return "";
+	}
 }

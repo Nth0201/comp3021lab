@@ -71,6 +71,9 @@ public class TextNote extends Note {
             e.printStackTrace();
         }
 	}
-
+	@Override
+	public String getContent(){
+		return content;
+	}
 
 }
