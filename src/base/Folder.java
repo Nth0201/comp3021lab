@@ -3,7 +3,11 @@ package base;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class Folder implements Comparable<Folder>, java.io.Serializable{
 	private ArrayList<Note> notes;
@@ -90,6 +94,63 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 		Collections.sort(CurrentSearch);
 		return CurrentSearch;
 	}
+
+	public void findFrequentWord(){
+		Hashtable<String,Integer> countWord = new Hashtable<>();
+		Map<String,Integer> freqWord = new Hashtable<>();
+		int smallestKey = 2;
+		for(Note o : notes){
+			if(o instanceof TextNote){
+				// ensure it is a instance of TextNote to do the content search
+				String[] contents = o.getContent().trim().split("\\s+");
+				for(String word: contents){
+					if(countWord.containsKey(word) == true){
+						// find the key of the word
+						countWord.computeIfPresent(word, (k, v) -> v + 1);
+					} else {
+						countWord.put(word, 1);
+					}
+				}
+
+			}
+		}
+		// after loop all the content of all note in this folder
+		// print the most frequency word
+		for(String key : countWord.keySet()){
+			int tmp = countWord.get(key);
+			if(freqWord.size() != 3 && tmp >= 2){
+				freqWord.put(key, tmp);
+				if(freqWord.size() == 1){
+					smallestKey = tmp;
+				} else if( tmp < smallestKey){
+					smallestKey = tmp;
+				}
+				freqWord = sortByValue(freqWord);
+			} else if(tmp > smallestKey){
+				freqWord.remove(freqWord.keySet().toArray()[0],smallestKey);
+				freqWord.put(key, tmp);
+				freqWord = sortByValue(freqWord);
+				smallestKey = (int) freqWord.values().toArray()[0];
+			}
+		}
+
+		System.out.println(freqWord);
+
+
+
+	}
+
+	public static <String, Integer extends Comparable<Integer>> Map<String, Integer> sortByValue(Map<String, Integer> map) {
+        List<Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<String, Integer> result = new LinkedHashMap<>();
+        for (Entry<String, Integer> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
 
 	@Override
 	public int compareTo(Folder o){
