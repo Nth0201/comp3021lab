@@ -62,4 +62,9 @@ public class Note implements Comparable<Note>, java.io.Serializable {
 	public String getContent(){
 		return "";
 	}
+
+	public void setContent(String text) {
+		// TODO Auto-generated method stub
+
+	}
 }

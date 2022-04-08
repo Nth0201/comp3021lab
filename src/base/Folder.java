@@ -97,12 +97,12 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 
 	public void findFrequentWord(){
 		Hashtable<String,Integer> countWord = new Hashtable<>();
-		Map<String,Integer> freqWord = new Hashtable<>();
+		List<Entry<String,Integer>> freqWord = new ArrayList<>();
 		int smallestKey = 2;
 		for(Note o : notes){
 			if(o instanceof TextNote){
 				// ensure it is a instance of TextNote to do the content search
-				String[] contents = o.getContent().trim().split("\\s+");
+				String[] contents = o.getContent().trim().split("[\\p{Punct}\\s]+");
 				for(String word: contents){
 					if(countWord.containsKey(word) == true){
 						// find the key of the word
@@ -116,7 +116,7 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 		}
 		// after loop all the content of all note in this folder
 		// print the most frequency word
-		for(String key : countWord.keySet()){
+		/*for(String key : countWord.keySet()){
 			int tmp = countWord.get(key);
 			if(freqWord.size() != 3 && tmp >= 2){
 				freqWord.put(key, tmp);
@@ -132,7 +132,14 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 				freqWord = sortByValue(freqWord);
 				smallestKey = (int) freqWord.values().toArray()[0];
 			}
-		}
+		}*/
+		freqWord = sortByValue(countWord);
+		//Set freqWord_set = freqWord.keySet();
+		//int tar = freqWord.size();
+
+		//for(int i = freqWord.size() - 1; i > tar ){
+
+		//}
 
 		System.out.println(freqWord);
 
@@ -140,13 +147,20 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 
 	}
 
-	public static <String, Integer extends Comparable<Integer>> Map<String, Integer> sortByValue(Map<String, Integer> map) {
+	public static <String, Integer extends Comparable<Integer>> List<Entry<String, Integer>> sortByValue(Map<String, Integer> map) {
         List<Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
         list.sort(Entry.comparingByValue());
 
-        Map<String, Integer> result = new LinkedHashMap<>();
+        Map<String, Integer> tmp = new LinkedHashMap<>();
+        List<Entry<String, Integer>> result = new ArrayList<>();
         for (Entry<String, Integer> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
+
+        	tmp.put(entry.getKey(), entry.getValue());
+            if(map.size() - tmp.size() < 3 && (int)entry.getValue() > 1){
+            	result.add(entry);
+            	System.out.println(entry.getKey());
+            	System.out.println(entry.getValue());
+            }
         }
 
         return result;
@@ -198,5 +212,13 @@ public class Folder implements Comparable<Folder>, java.io.Serializable{
 
 		return name + ":" + nText + ":" + nImage;
 	}
-
+	public boolean removeNotes(String title){
+		for(Note o: notes){
+			if(o.getTitle().equals(title)){
+				notes.remove(o);
+				return true;
+			}
+		}
+		return false;
+	}
 }

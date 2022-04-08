@@ -10,6 +10,7 @@ import java.io.FileWriter;
 
 public class TextNote extends Note {
 	String content;
+	private static final long serialVersionUID = 1L;
 
 	public TextNote(String title){
 		super(title);
@@ -75,5 +76,7 @@ public class TextNote extends Note {
 	public String getContent(){
 		return content;
 	}
-
+	public void setContent(String content){
+		this.content = content;
+	}
 }

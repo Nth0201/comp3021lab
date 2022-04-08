@@ -10,14 +10,15 @@ public class TestLab3 {
 	public static void main(String args[]){
 
 		NoteBook nb = new NoteBook();
-		nb.createTextNote("Java", "COMP30213021 syllabus", "in in in ");
-		nb.createTextNote("Java", "course information", "is is is is");
-		nb.createTextNote("Lab", "Lab requirement","Each lab has 2 credits, 1 for attendence and the other is based the completeness of your lab.");
+		nb.createTextNote("Java", "COMP30213021 syllabus", "in. in in");
+		nb.createTextNote("Java", "course information", "is");
+		nb.createTextNote("Lab", "Lab requirement","Each lab has 2 credits, 1 for attendence the other is based the completeness of your lab.");
 
 		nb.createImageNote("Course", "Time Tables");
 		nb.createImageNote("Assignment", "Assignment Lists");
 		nb.createImageNote("CSE", "Lab Session");
 		nb.createTextNote("Java", "marking scheme", "The quizzes and lab grades will be given based on your attendance in quizze and lab, respectively");
+		nb.createTextNote("Java", "marking scheme1", "The quizzes and lab grades will be given based on your attendance in quizze and lab, respectively  is is is");
 		nb.createImageNote("Java", "java Attendance Checking");
 
 		nb.sortFolders();
